@@ -1,0 +1,15 @@
+{
+	"ImportPath": "github.com/takahi-i/walter-integration-test",
+	"GoVersion": "go1.3",
+	"Deps": [
+		{
+			"ImportPath": "github.com/stretchr/testify",
+			"Rev": "de7fcff264cd05cc0c90c509ea789a436a0dd206"
+		},
+	        {
+		        "ImportPath": "github.com/walter-cd/walter",
+  		        "Rev": "HEAD"
+
+		}
+	]
+}

@@ -1,0 +1,20 @@
+#!/bin/sh -e
+
+ORG_PATH="github.com/takahi-i"
+REPO_PATH="${ORG_PATH}/walter-integration-test"
+
+export GOBIN=${PWD}/bin
+export GOPATH=${PWD}/gopath
+export GOFMTPATH=" ./pipelines ./messengers"
+
+rm -f ${GOPATH}/src/${REPO_PATH}
+mkdir -p ${GOPATH}/src/${ORG_PATH}
+ln -s ${PWD} ${GOPATH}/src/${REPO_PATH}
+
+eval $(go env)
+
+if ! [ -e $GOBIN/godep ]; then
+    go get github.com/tools/godep
+fi
+
+$GOBIN/godep restore
