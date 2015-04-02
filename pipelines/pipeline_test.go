@@ -17,78 +17,16 @@
 package pipelines
 
 import (
-	"bytes"
-	"io"
-	"os/exec"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/recruit-tech/walter/log"
+	"github.com/takahi-i/walter-integration-test/utils"
 )
 
-func execCommand(cmd *exec.Cmd, prefix string) (bool, *string, *string) {
-	out, err := cmd.StdoutPipe()
-	outE, errE := cmd.StderrPipe()
-
-	if err != nil {
-		log.Warnf("[command] %s err: %s", prefix, out)
-		log.Warnf("[command] %s err: %s", prefix, err)
-		return false, nil, nil
-	}
-
-	if errE != nil {
-		log.Warnf("[command] %s err: %s", prefix, outE)
-		log.Warnf("[command] %s err: %s", prefix, errE)
-		return false, nil, nil
-	}
-
-	err = cmd.Start()
-	if err != nil {
-		log.Warnf("[command] %s err: %s", prefix, err)
-		return false, nil, nil
-	}
-	outResult := copyStream(out, prefix)
-	errResult := copyStream(outE, prefix)
-
-	err = cmd.Wait()
-	if err != nil {
-		log.Warnf("[command] %s err: %s", prefix, err)
-		return false, &outResult, &errResult
-	}
-	return true, &outResult, &errResult
-}
-
-func copyStream(reader io.Reader, prefix string) string {
-	var err error
-	var n int
-	var buffer bytes.Buffer
-	tmpBuf := make([]byte, 1024)
-	for {
-		if n, err = reader.Read(tmpBuf); err != nil {
-			break
-		}
-		buffer.Write(tmpBuf[0:n])
-		log.Infof("[command] %s output: %s", prefix, tmpBuf[0:n])
-	}
-	if err == io.EOF {
-		err = nil
-	} else {
-		log.Error("ERROR: " + err.Error())
-	}
-	return buffer.String()
-}
-
-func runCommand(param string) bool {
-	cmd := exec.Command("../bin/walter", "-c", param)
-	cmd.Dir = "."
-	result, _, _ := execCommand(cmd, "exec")
-	return result
-}
-
 func TestRunWalter(t *testing.T) {	
-	assert.Equal(t, true, runCommand("pipeline.yml"))
+	assert.Equal(t, true, utils.RunCommand("pipeline.yml"))
 }
 
 func TestRunWalterWithPipelineWithFail(t *testing.T) {	
-	assert.Equal(t, false, runCommand("pipeline-fail.yml"))
+	assert.Equal(t, false, utils.RunCommand("pipeline-fail.yml"))
 }
