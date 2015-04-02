@@ -85,7 +85,10 @@ func runCommand(param string) bool {
 	return result
 }
 
-func TestReportStageResultWithFullOutput(t *testing.T) {
-	runCommand("pipeline.yml")
-	assert.Equal(t, 2, 2)
+func TestRunWalter(t *testing.T) {	
+	assert.Equal(t, true, runCommand("pipeline.yml"))
+}
+
+func TestRunWalterWithPipelineWithFail(t *testing.T) {	
+	assert.Equal(t, false, runCommand("pipeline-fail.yml"))
 }
