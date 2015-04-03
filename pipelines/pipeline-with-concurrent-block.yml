@@ -1,0 +1,21 @@
+pipeline:
+    - name: command_stage_1
+      type: command
+      command: echo "hello, world"
+      run_after:
+          -  name: command_stage_2_group_1
+             type: command
+             command: echo "hello, world, command_stage_2_group_1"
+          -  name: command_stage_3_group_1
+             type: command
+             command: echo "hello, world, command_stage_3_group_1"
+             run_after:
+                  -  name: command_stage_3_group_2
+                     type: command
+                     command: echo "hello, world, command_stage_3_group_2"
+    - name: command_stage_4
+      type: command
+      command: echo "hello, world" && sleep 1
+    - name: command_stage_5
+      type: command
+      command: echo "hello, world, command_stage_3_group_1"

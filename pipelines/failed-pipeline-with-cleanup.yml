@@ -1,10 +1,16 @@
 pipeline:
     - name: command_stage_1
       type: command
-      command: echo "hello, world"
+      command: not-such-a-command "hello, world"
     - name: command_stage_2
       type: command
       command: echo "hello, world" && sleep 1
     - name: command_stage_3
       type: command
       command: echo "hello, world, command_stage_3"
+
+cleanup:
+    - name: cleanup_stage_1
+      type: command
+      command: echo "hello cleanup"
+ 

@@ -41,3 +41,26 @@ func TestRunWalterWithForceOptionWithFailedPipeline(t *testing.T) {
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_2"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_3"), *result.ErrResult)
 }
+
+func TestRunWalterWithCleanup(t *testing.T) {
+	result := utils.RunWalterWithForthOption("pipeline-with-cleanup.yml")
+	assert.Equal(t, true, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_1"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_2"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_3"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec output: hello cleanup"), *result.ErrResult)
+}
+
+func TestRunWalterWithFailedPipelineWithCleanup(t *testing.T) {
+	result := utils.RunWalterWithForthOption("failed-pipeline-with-cleanup.yml")
+	assert.Equal(t, false, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("exec output: hello cleanup"), *result.ErrResult)
+}
+
+func TestRunWalterWithConcurrentPipeline(t *testing.T) {
+	result := utils.RunWalter("pipeline-with-concurrent-block.yml")
+	assert.Equal(t, true, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_1"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_2_group_1"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_3_group_1"), *result.ErrResult)
+}
