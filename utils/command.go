@@ -8,26 +8,35 @@ import (
 	"log"
 )
 
-func execCommand(cmd *exec.Cmd, prefix string) (bool, *string, *string) {
+type Result struct {
+	IsSucceed bool
+	OutResult *string
+	ErrResult *string
+}
+
+func execCommand(cmd *exec.Cmd, prefix string) (*Result) {
 	out, err := cmd.StdoutPipe()
 	outE, errE := cmd.StderrPipe()
 
 	if err != nil {
 		log.Println(fmt.Sprintf("[command] %s err: %s", prefix, out))
 		log.Println(fmt.Sprintf("[command] %s err: %s", prefix, err))
-		return false, nil, nil
+		return &Result{
+			IsSucceed: false,
+			OutResult: nil,
+			ErrResult: nil}
 	}
 
 	if errE != nil {
 		log.Println(fmt.Sprintf("[command] %s err: %s", prefix, outE))
 		log.Println(fmt.Sprintf("[command] %s err: %s", prefix, errE))
-		return false, nil, nil
+		return &Result{IsSucceed: false, OutResult: nil, ErrResult: nil}
 	}
 
 	err = cmd.Start()
 	if err != nil {
 		log.Println("[command] %s err: %s", prefix, err)
-		return false, nil, nil
+		return &Result{IsSucceed: false, OutResult: nil, ErrResult: nil}
 	}
 	outResult := copyStream(out, prefix)
 	errResult := copyStream(outE, prefix)
@@ -35,9 +44,10 @@ func execCommand(cmd *exec.Cmd, prefix string) (bool, *string, *string) {
 	err = cmd.Wait()
 	if err != nil {
 		log.Println(fmt.Sprintf("[command] %s err: %s", prefix, err))
-		return false, &outResult, &errResult
+		return &Result{IsSucceed: false, OutResult: &outResult, ErrResult: &errResult}
 	}
-	return true, &outResult, &errResult
+	log.Println("Succeeded to run command")
+	return &Result{IsSucceed: true, OutResult: &outResult, ErrResult: &errResult}
 }
 
 func copyStream(reader io.Reader, prefix string) string {
@@ -60,16 +70,16 @@ func copyStream(reader io.Reader, prefix string) string {
 	return buffer.String()
 }
 
-func RunWalter(config string) bool {
+func RunWalter(config string) *Result {
 	cmd := exec.Command("../bin/walter", "-c", config)
 	cmd.Dir = "."
-	result, _, _ := execCommand(cmd, "exec")
+	result := execCommand(cmd, "exec")
 	return result
 }
 
-func RunWalterWithForthOption(config string) bool {
+func RunWalterWithForthOption(config string) *Result {
 	cmd := exec.Command("../bin/walter", "-c", config, "-f", "true")
 	cmd.Dir = "."
-	result, _, _ := execCommand(cmd, "exec")
+	result := execCommand(cmd, "exec")
 	return result
 }

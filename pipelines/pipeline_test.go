@@ -17,20 +17,27 @@
 package pipelines
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/takahi-i/walter-integration-test/utils"
 )
 
-func TestRunWalter(t *testing.T) {	
-	assert.Equal(t, true, utils.RunWalter("pipeline.yml"))
+func TestRunWalter(t *testing.T) {
+	assert.Equal(t, true, utils.RunWalter("pipeline.yml").IsSucceed)
 }
 
-func TestRunWalterWithPipelineWithFail(t *testing.T) {	
-	assert.Equal(t, false, utils.RunWalter("pipeline-fail.yml"))
+func TestRunWalterWithPipelineWithFail(t *testing.T) {
+	result := utils.RunWalter("pipeline-fail.yml")
+	assert.Equal(t, false, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("Execution is skipped: command_stage_2"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("Execution is skipped: command_stage_3"), *result.ErrResult)
 }
 
-func TestRunWalterWithForceOptionWithFailedPipeline(t *testing.T) {	
-	assert.Equal(t, false, utils.RunWalterWithForthOption("pipeline-fail.yml"))
+func TestRunWalterWithForceOptionWithFailedPipeline(t *testing.T) {
+	result := utils.RunWalterWithForthOption("pipeline-fail.yml")
+	assert.Equal(t, false, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_2"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec: command_stage_3"), *result.ErrResult)
 }
