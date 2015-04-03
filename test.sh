@@ -16,7 +16,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-. ./build
+. ./prepare
 
 go test -i ./pipelines || exit 1
 go test -v ./pipelines -race || exit 1

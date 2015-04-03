@@ -23,6 +23,3 @@ if ! [ -e walter ]; then
 fi
 
 $GOBIN/godep restore
-
-#go install github.com/recruit-tech/walter
-#go build ${REPO_PATH}
