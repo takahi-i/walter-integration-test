@@ -60,8 +60,15 @@ func copyStream(reader io.Reader, prefix string) string {
 	return buffer.String()
 }
 
-func RunCommand(param string) bool {
-	cmd := exec.Command("../bin/walter", "-c", param)
+func RunWalter(config string) bool {
+	cmd := exec.Command("../bin/walter", "-c", config)
+	cmd.Dir = "."
+	result, _, _ := execCommand(cmd, "exec")
+	return result
+}
+
+func RunWalterWithForthOption(config string) bool {
+	cmd := exec.Command("../bin/walter", "-c", config, "-f", "true")
 	cmd.Dir = "."
 	result, _, _ := execCommand(cmd, "exec")
 	return result

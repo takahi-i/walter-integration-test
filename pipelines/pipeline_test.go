@@ -24,9 +24,13 @@ import (
 )
 
 func TestRunWalter(t *testing.T) {	
-	assert.Equal(t, true, utils.RunCommand("pipeline.yml"))
+	assert.Equal(t, true, utils.RunWalter("pipeline.yml"))
 }
 
 func TestRunWalterWithPipelineWithFail(t *testing.T) {	
-	assert.Equal(t, false, utils.RunCommand("pipeline-fail.yml"))
+	assert.Equal(t, false, utils.RunWalter("pipeline-fail.yml"))
+}
+
+func TestRunWalterWithForceOptionWithFailedPipeline(t *testing.T) {	
+	assert.Equal(t, false, utils.RunWalterWithForthOption("pipeline-fail.yml"))
 }
