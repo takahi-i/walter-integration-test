@@ -1,0 +1,19 @@
+messenger:
+  type: hipchat2
+  room_id: $HIPCHAT_ROOM_ID
+  token: $HIPCHAT_TWO_TOKEN
+  from: $HIPCHAT_USER_NAME
+
+pipeline:
+    - name: command_stage_1
+      type: command
+      command: echo "hello, world"
+      report_full_output: true
+    - name: command_stage_2
+      type: command
+      command: echo "hello, world" && sleep 1
+      report_full_output: true
+    - name: command_stage_3
+      type: command
+      command: echo "hello, world, command_stage_3"
+      report_full_output: true

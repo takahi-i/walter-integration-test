@@ -24,6 +24,14 @@ import (
 )
 
 // NOTE: environment variables (SLACK_CHANNEL, SLACK_URL etc) need to be set before running the following tests. 
-func TestRunWalter(t *testing.T) {
+func TestRunWalterWithSlackReport(t *testing.T) {
 	assert.Equal(t, true, utils.RunWalter("pipeline_slack.yml").IsSucceed)
+}
+
+func TestRunWalterWithHipChatReport(t *testing.T) {
+	assert.Equal(t, true, utils.RunWalter("pipeline_hipchat.yml").IsSucceed)
+}
+
+func TestRunWalterWithHipChatV2Report(t *testing.T) {
+	assert.Equal(t, true, utils.RunWalter("pipeline_hipchat_v2.yml").IsSucceed)
 }
