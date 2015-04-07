@@ -1,0 +1,19 @@
+messenger:
+  type: slack
+  channel: $SLACK_CHANNEL
+  username: $SLACK_USER_NAME
+  url: $SLACK_URL
+
+pipeline:
+    - name: command_stage_1
+      type: command
+      command: echo "hello, world"
+      report_full_output: true
+    - name: command_stage_2
+      type: command
+      command: echo "hello, world" && sleep 1
+      report_full_output: true
+    - name: command_stage_3
+      type: command
+      command: echo "hello, world, command_stage_3"
+      report_full_output: true

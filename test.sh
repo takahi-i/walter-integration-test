@@ -20,3 +20,6 @@
 
 go test -i ./pipelines || exit 1
 go test -v ./pipelines -race || exit 1
+
+go test -i ./messengers || exit 1
+go test -v ./messengers -race || exit 1

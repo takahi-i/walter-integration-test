@@ -1,0 +1,7 @@
+pipeline:
+    - name: command_stage_1
+      type: command
+      command: echo $GOPATH
+    - name: command_stage_2
+      type: command
+      command: echo $GOBIN

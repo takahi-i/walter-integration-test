@@ -29,21 +29,21 @@ func TestRunWalter(t *testing.T) {
 }
 
 func TestRunWalterWithPipelineWithFail(t *testing.T) {
-	result := utils.RunWalter("pipeline-fail.yml")
+	result := utils.RunWalter("pipeline_fail.yml")
 	assert.Equal(t, false, result.IsSucceed)
 	assert.Regexp(t, regexp.MustCompile("Execution is skipped: command_stage_2"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("Execution is skipped: command_stage_3"), *result.ErrResult)
 }
 
 func TestRunWalterWithForceOptionWithFailedPipeline(t *testing.T) {
-	result := utils.RunWalterWithForthOption("pipeline-fail.yml")
+	result := utils.RunWalterWithForthOption("pipeline_fail.yml")
 	assert.Equal(t, false, result.IsSucceed)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_2"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_3"), *result.ErrResult)
 }
 
 func TestRunWalterWithCleanup(t *testing.T) {
-	result := utils.RunWalterWithForthOption("pipeline-with-cleanup.yml")
+	result := utils.RunWalterWithForthOption("pipeline_with_cleanup.yml")
 	assert.Equal(t, true, result.IsSucceed)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_1"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_2"), *result.ErrResult)
@@ -52,15 +52,22 @@ func TestRunWalterWithCleanup(t *testing.T) {
 }
 
 func TestRunWalterWithFailedPipelineWithCleanup(t *testing.T) {
-	result := utils.RunWalterWithForthOption("failed-pipeline-with-cleanup.yml")
+	result := utils.RunWalterWithForthOption("failed_pipeline_with_cleanup.yml")
 	assert.Equal(t, false, result.IsSucceed)
 	assert.Regexp(t, regexp.MustCompile("exec output: hello cleanup"), *result.ErrResult)
 }
 
 func TestRunWalterWithConcurrentPipeline(t *testing.T) {
-	result := utils.RunWalter("pipeline-with-concurrent-block.yml")
+	result := utils.RunWalter("pipeline_with_concurrent_block.yml")
 	assert.Equal(t, true, result.IsSucceed)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_1"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_2_group_1"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("exec: command_stage_3_group_1"), *result.ErrResult)
+}
+
+func TestRunWalterWithEnvironmentVariables(t *testing.T) {
+	result := utils.RunWalter("pipeline_env.yml")
+	assert.Equal(t, true, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("walter-integration-test/gopath"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("walter-integration-test/bin"), *result.ErrResult)
 }
