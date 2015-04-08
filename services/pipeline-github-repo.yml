@@ -1,0 +1,17 @@
+service:
+      type: github
+      token: $GITHUB_TOKEN
+      repo: $GITHUB_REPOSITORY
+      from: takahi-i
+      update: .walter
+
+pipeline:
+    - name: command_stage_1
+      type: command
+      command: echo "hello, world"
+    - name: command_stage_2
+      type: command
+      command: echo "hello, world" && sleep 1
+    - name: command_stage_3
+      type: command
+      command: echo "hello, world, command_stage_3"

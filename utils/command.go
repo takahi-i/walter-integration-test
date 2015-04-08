@@ -83,3 +83,11 @@ func RunWalterWithForthOption(config string) *Result {
 	result := execCommand(cmd, "exec")
 	return result
 }
+
+func RunWalterWithServiceMode(config string) *Result {
+	cmd := exec.Command("../bin/walter", "-c", config, "-mode", "service")
+	cmd.Dir = "."
+	result := execCommand(cmd, "exec")
+	return result
+}
+
