@@ -23,6 +23,6 @@ import (
 	"github.com/takahi-i/walter-integration-test/utils"
 )
 
-func TestRunWalter(t *testing.T) {
-	assert.Equal(t, true, utils.RunWalterWithServiceMode("pipeline-github-repo.yml").IsSucceed)
+func TestRunWalterForService(t *testing.T) {
+	assert.Equal(t, true, utils.RunWalterWithServiceMode("pipeline.yml", "../walter-github-sample-for-test").IsSucceed)
 }

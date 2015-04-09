@@ -71,23 +71,22 @@ func copyStream(reader io.Reader, prefix string) string {
 }
 
 func RunWalter(config string) *Result {
-	cmd := exec.Command("../bin/walter", "-c", config)
+	cmd := exec.Command("walter", "-c", config)
 	cmd.Dir = "."
 	result := execCommand(cmd, "exec")
 	return result
 }
 
 func RunWalterWithForthOption(config string) *Result {
-	cmd := exec.Command("../bin/walter", "-c", config, "-f", "true")
+	cmd := exec.Command("walter", "-c", config, "-f", "true")
 	cmd.Dir = "."
 	result := execCommand(cmd, "exec")
 	return result
 }
 
-func RunWalterWithServiceMode(config string) *Result {
-	cmd := exec.Command("../bin/walter", "-c", config, "-mode", "service")
-	cmd.Dir = "."
+func RunWalterWithServiceMode(config string, dir string) *Result {
+	cmd := exec.Command("walter", "-c", config, "-mode", "service")
+	cmd.Dir = dir
 	result := execCommand(cmd, "exec")
 	return result
 }
-
