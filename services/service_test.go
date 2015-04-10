@@ -17,6 +17,7 @@
 package pipelines
 
 import (
+	"regexp"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -24,5 +25,9 @@ import (
 )
 
 func TestRunWalterForService(t *testing.T) {
-	assert.Equal(t, true, utils.RunWalterWithServiceMode("pipeline.yml", "../walter-github-sample-for-test").IsSucceed)
+	result := utils.RunWalterWithServiceMode("pipeline.yml", "../walter-github-sample-for-test")
+	assert.Equal(t, false, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("exec output: sh: ho: command not found"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec output: sh: cho: command not found"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec output: fixed, world"), *result.ErrResult)
 }
