@@ -9,7 +9,7 @@ Environment Variables
 You need to set the following envrionment variables before running the Walter integration tests.
 
 | Variable          | Description       |
-|:------------------|------------------:|
+|:------------------|:------------------|
 | HIPCHAT_ROOM_ID   | HipChat room name |
 | HIPCHAT_USER_NAME | HipChat user name |
 | HIPCHAT_TOKEN     | HipChat token (API v1) |
@@ -25,4 +25,5 @@ Running tests
 ===================
 
     $ git@github.com:takahi-i/walter-integration-test.git
+    $ cd walter-integration-test
     $ sh test.sh
