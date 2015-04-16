@@ -17,6 +17,7 @@
 package pipelines
 
 import (
+	"os"
 	"regexp"
 	"testing"
 
@@ -30,4 +31,5 @@ func TestRunWalterForService(t *testing.T) {
 	assert.Regexp(t, regexp.MustCompile("exec output: sh: ho: command not found"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("exec output: sh: cho: command not found"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("exec output: fixed, world"), *result.ErrResult)
+	os.Remove("../walter-github-sample-for-test/.walter");
 }
