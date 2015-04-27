@@ -24,7 +24,7 @@ Running tests
 ===================
 
 ```
-$ git@github.com:takahi-i/walter-integration-test.git
+$ git clone git@github.com:walter-cd/walter-integration-test.git
 $ cd walter-integration-test
 $ sh test.sh
 ```
