@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/takahi-i/walter-integration-test/utils"
+	"github.com/walter-cd/walter-integration-test/utils"
 )
 
 // NOTE: environment variables (SLACK_CHANNEL, SLACK_URL etc) need to be set before running the following tests. 

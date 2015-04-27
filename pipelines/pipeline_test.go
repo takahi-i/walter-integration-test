@@ -21,7 +21,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/takahi-i/walter-integration-test/utils"
+	"github.com/walter-cd/walter-integration-test/utils"
 )
 
 func TestRunWalter(t *testing.T) {
