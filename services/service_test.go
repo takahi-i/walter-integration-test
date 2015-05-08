@@ -33,3 +33,21 @@ func TestRunWalterForService(t *testing.T) {
 	assert.Regexp(t, regexp.MustCompile("exec output: fixed, world"), *result.ErrResult)
 	os.Remove("../walter-github-sample-for-test/.walter");
 }
+
+func TestRunWalterForServiceNotSpecifyingUpdateFile(t *testing.T) {
+	result := utils.RunWalterWithServiceMode("pipeline-without-update.yml", "../walter-github-sample-for-test")
+	assert.Equal(t, false, result.IsSucceed)
+	assert.NotRegexp(t, regexp.MustCompile("exec output: sh: ho: command not found"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec output: sh: cho: command not found"), *result.ErrResult)
+	assert.NotRegexp(t, regexp.MustCompile("exec output: fixed, world"), *result.ErrResult)
+	os.Remove("../walter-github-sample-for-test/.walter");
+}
+
+func TestRunWalterForServiceWithFilter(t *testing.T) {
+	result := utils.RunWalterWithServiceMode("pipeline-with-filter.yml", "../walter-github-sample-for-test")
+	assert.Equal(t, false, result.IsSucceed)
+	assert.NotRegexp(t, regexp.MustCompile("exec output: sh: ho: command not found"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec output: sh: cho: command not found"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec output: filtered fixed, world"), *result.ErrResult)
+	os.Remove("../walter-github-sample-for-test/.walter");
+}
