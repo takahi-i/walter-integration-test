@@ -28,6 +28,10 @@ func TestRunWalterWithSlackReport(t *testing.T) {
 	assert.Equal(t, true, utils.RunWalter("pipeline_slack.yml").IsSucceed)
 }
 
+func TestRunWalterWithSlackReportWithSuppress(t *testing.T) {
+	assert.Equal(t, true, utils.RunWalter("pipeline_slack_suppress.yml").IsSucceed)
+}
+
 func TestRunWalterWithHipChatReport(t *testing.T) {
 	assert.Equal(t, true, utils.RunWalter("pipeline_hipchat.yml").IsSucceed)
 }
