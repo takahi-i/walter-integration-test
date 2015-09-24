@@ -1,0 +1,7 @@
+pipeline:
+    - name: stage 1
+      type: command
+      command: echo "hello Walter"
+    - name: stge 2
+      type: command
+      command: echo __RESULT["stage 1"]

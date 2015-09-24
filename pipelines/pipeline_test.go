@@ -71,3 +71,11 @@ func TestRunWalterWithEnvironmentVariables(t *testing.T) {
 	assert.Regexp(t, regexp.MustCompile("walter-integration-test/gopath"), *result.ErrResult)
 	assert.Regexp(t, regexp.MustCompile("walter-integration-test/bin"), *result.ErrResult)
 }
+
+func TestRunWalterWithSpecialVariables(t *testing.T) {
+	result := utils.RunWalter("pipeline_spvar.yml")
+	assert.Equal(t, true, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("exec output: hello Walter"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("exec output: true"), *result.ErrResult)
+}
+
