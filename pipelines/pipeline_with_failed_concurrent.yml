@@ -1,0 +1,23 @@
+  pipeline:
+    - name: stage 1
+    - name: stage 2
+      type: command
+      command: exit 1
+    - name: stage 3
+      type: command
+      command: echo "will be skipped"
+    - name: stage 4
+      parallel:
+        - name: parallel stage 1
+          type: command
+          command: echo "expect skip yay"
+        - name: parallel stage 2
+          type: command
+          command: echo "expect skip yay"
+        - name: parallel stage 3
+          type: command
+          command: echo `ls -l`
+    - name: stage 5
+      type: command
+      command: echo "will be skipped"
+    - name: stage 6

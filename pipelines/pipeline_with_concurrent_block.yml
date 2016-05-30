@@ -1,14 +1,14 @@
 pipeline:
     - name: command_stage_1
       type: command
-      command: echo "hello, world"
+      command: sleep 10; echo "hello, world"
       run_after:
           -  name: command_stage_2_group_1
              type: command
              command: echo "hello, world, command_stage_2_group_1"
           -  name: command_stage_3_group_1
              type: command
-             command: echo "hello, world, command_stage_3_group_1"
+             command: sleep 10;  echo "hello, world, command_stage_3_group_1"
              run_after:
                   -  name: command_stage_3_group_2
                      type: command

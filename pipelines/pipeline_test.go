@@ -79,3 +79,11 @@ func TestRunWalterWithSpecialVariables(t *testing.T) {
 	assert.Regexp(t, regexp.MustCompile("exec output: true"), *result.ErrResult)
 }
 
+func TestRunWalterWithFailedConcurrentPipeline(t *testing.T) {
+	result := utils.RunWalter("pipeline_with_failed_concurrent.yml")
+	assert.Equal(t, false, result.IsSucceed)
+	assert.Regexp(t, regexp.MustCompile("exec: failed stage \"stage 2\""), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("Execution of child stage is skipped: parallel stage 1"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("Execution of child stage is skipped: parallel stage 2"), *result.ErrResult)
+	assert.Regexp(t, regexp.MustCompile("Execution of child stage is skipped: parallel stage 3"), *result.ErrResult)
+}
